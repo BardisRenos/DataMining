@@ -52,3 +52,38 @@ for root, dirs, files in os.walk(dir_name):
 ```
 
 
+
+<p align="justify">
+In order to get some results we have to edit the text contained in the nodes and for this reason we have to "clear" the text and keep some words in which we can "extract" information. The texts contained in each node are grouped into a larger text for easier editing (after we have deleted the texts that are the same)
+
+The texts that contain the nodes, their volume will be reduced because words with a short length, ie words with a length less than or equal to 4 are excluded. Next, we have a collection in a text file that contains words that have a high frequency and do not help in extracting information which are also called "Stopping Words". They must also have only words, ie symbols and numbers are excluded as well.
+</p>
+
+```python
+import filecmp
+
+lista = []
+count = 0
+listadiegrafis = []
+
+metriris = 0
+for root, directories, filenames in os.walk(dir_destination):
+    lista.clear()
+    for filename in filenames:
+        diadromi = os.path.join(root, filename)
+        ono = os.path.basename(diadromi)
+        lista.append(diadromi)
+    for w, j in zip(lista, lista[1::]):
+        a = filecmp.cmp(w, j, shallow=True)
+        if a:
+            count += 1
+            stixeio = os.path.basename(w)
+            stoixeio1 = os.path.basename(j)
+            listadiegrafis.append(j)
+
+for i in listadiegrafis:
+    os.remove(i)
+    metriris += 1
+print("Same text files:", metriris)
+```
+

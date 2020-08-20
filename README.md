@@ -91,3 +91,14 @@ print("Same text files:", metriris)
 ```text
 Same text files:1798
 ```
+
+### Word processing procedures
+
+* Remove short words
+* Remove words belonging to the Stopping Words collection
+* Subtraction of numbers & symbols
+* Remove punctuation
+
+
+
+

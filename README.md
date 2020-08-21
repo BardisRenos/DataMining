@@ -19,8 +19,13 @@ The main purpose of this work is to apply data extraction methods to predict mis
 </p>
 
 
+### Data set
 <p align="justify">
-Since each folder contains more than one txt file, for this check if there are duplicate files (text files in the same nodes) and delete them to reduce the volume that I will edit in the text field. Having a smaller number of text files will help reduce editing time and better editing and better results.
+The data set is a large number .txt file which are stored into each folder with the folder name. That means each folder name represents a web node. Each text file has as data of the website text without the hyperlinks that may has. In that way I have to predict by text meaning the pair node of each given node.
+</p>
+
+<p align="justify">
+Since each folder contains more than one text file, for this check if there are duplicate files (text files in the same nodes) and delete them to reduce the volume that I will edit in the text field. Having a smaller number of text files will help reduce editing time and better editing and better results.
 </p>
 
 ```python

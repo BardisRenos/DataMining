@@ -197,6 +197,44 @@ The size of the array should be 2041 rows by <b>the only words in the text</b> b
 
 ```
 
+```
+The size of DF-Idf (2036, 357413)
+```
+
+<p align="justify">
+At this stage we need to create the X table which contains various attributes for each node diagram that can exist. That is, the total number of X and Y should be (2041 * 2041) -2041 the table will get all the possible combinations except the combination that will be with itself.
+</p>
+
+<p align="justify">
+The array X as mentioned above will have (2041 * 2041) -2041 rows and the number of columns will depend on how many characteristics we will give. While the array Y will have the form (2041 * 2041) -2041 with 1 line. Array Y will have the property to show that the combination of 2 nodes has or does not have an edge that joins them. We confirm this from the graph given to us and check if a pair of nodes actually has an acne that joins them to the graph.
+</p>
 
 
+<p align="center">
+<b>The features we use for text:</b>
+</p>
 
+* cosine similarity
+
+<p align="center">
+<b>The features we used for the graph:</b>
+</p>
+
+* KCore
+* Indegree
+* Outdegree
+* PageRank
+* Adamic/Adar
+* Hits
+* Shortest Path
+* Jaccard Coefficient
+* Common Neighbors
+* Preferential_attachment
+* Resource_allocation_index
+* Centrality
+* Katz_Centrality
+
+
+<p align="justify">
+To apply these algorithms I mentioned above we had to use the directional and non-directed graph and for this there are two graphs in the following code. For example, the Adamic / Adar algorithm only works on non-directed graphs.
+</p>

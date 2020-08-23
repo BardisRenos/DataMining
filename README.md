@@ -238,3 +238,143 @@ The array X as mentioned above will have (2041 * 2041) -2041 rows and the number
 <p align="justify">
 To apply these algorithms I mentioned above we had to use the directional and non-directed graph and for this there are two graphs in the following code. For example, the Adamic / Adar algorithm only works on non-directed graphs.
 </p>
+
+
+
+```python
+  import pickle
+  import numpy as np
+  import networkx as nx
+  from sklearn.linear_model import LogisticRegression
+  from heapq import nlargest
+  from operator import itemgetter
+  from sklearn import preprocessing
+  import math
+
+  pathfile = "/home/renos/Desktop/CosineSimilarity/ArxeioCosineSimilarity"
+
+  loatpath = pathfile + ".npy"
+  cosineLoad = np.load(loatpath)
+
+  X_Pinakas = np.zeros((((cosineLoad.shape[0] * cosineLoad.shape[1]) - len(cosineLoad[0])), 10))
+  Y = np.zeros((cosineLoad.shape[0] * cosineLoad.shape[1]) - len(cosineLoad[0]))
+  dict1 = {}
+  dictEdgelist = {}
+  metritis = 0
+  with open("/home/renos/Desktop/CosineSimilarity/ArxeioFileNames", "rb") as fp:
+      itemlistOnomataArxeion = pickle.load(fp)
+
+  G = nx.read_edgelist("/home/renos/Desktop/files/edgelist.txt", comments='#', delimiter="\t",
+                       create_using=nx.DiGraph())
+
+  Gundirected = nx.read_edgelist("/home/renos/Desktop/files/edgelist.txt", comments='#', delimiter="\t",
+                                 create_using=nx.Graph(), nodetype=str)
+
+  with open("/home/renos/Desktop/files/edgelist.txt") as fp:
+      for i in fp:
+          i = i.split()
+          dictEdgelist[metritis] = ([i[0], i[1]])
+          metritis += 1
+
+  arithmoskoron = nx.core_number(G)
+  degree = nx.degree_centrality(Gundirected)
+
+  pagerank = nx.pagerank_numpy(G, alpha=0.9)
+
+
+  def XYarrays():
+      count = 0
+      thesi = 0
+      for i in range(cosineLoad.shape[0]):
+          for j in range(cosineLoad.shape[0]):
+              if i != j:
+                  pithanotita = np.around(cosineLoad[i][j], decimals=3)
+                  X_Pinakas[count][0] = pithanotita
+
+                  if arithmoskoron[itemlistOnomataArxeion[i]]:
+                      timi = arithmoskoron.get(itemlistOnomataArxeion[i])
+                      X_Pinakas[count][1] = timi
+                  if arithmoskoron[itemlistOnomataArxeion[j]]:
+                      timi = arithmoskoron.get(itemlistOnomataArxeion[j])
+                      X_Pinakas[count][2] = timi
+
+                  if G.in_degree(itemlistOnomataArxeion[i]) != "":
+                      X_Pinakas[count][3] = G.in_degree(itemlistOnomataArxeion[i])
+
+                  if G.out_degree(itemlistOnomataArxeion[i]) != "":
+                      X_Pinakas[count][4] = G.out_degree(itemlistOnomataArxeion[i])
+
+                  if G.in_degree(itemlistOnomataArxeion[j]) != "":
+                      X_Pinakas[count][5] += G.in_degree(itemlistOnomataArxeion[j])
+
+                  if G.out_degree(itemlistOnomataArxeion[j]) != "":
+                      X_Pinakas[count][6] += G.out_degree(itemlistOnomataArxeion[j])
+
+                  if pagerank[itemlistOnomataArxeion[i]]:
+                      X_Pinakas[count][7] = pagerank.get(itemlistOnomataArxeion[i])
+
+                  if pagerank[itemlistOnomataArxeion[j]]:
+                      X_Pinakas[count][8] = pagerank.get(itemlistOnomataArxeion[j])
+
+                  Adamic = nx.adamic_adar_index(Gundirected, [(itemlistOnomataArxeion[i], itemlistOnomataArxeion[j])])
+                  for u, v, p in Adamic:
+                      p = float(p)
+                      X_Pinakas[count][9] = p
+
+                  count += 1
+
+                  if G.has_edge(itemlistOnomataArxeion[i], itemlistOnomataArxeion[j]):
+                      Y[thesi] = 1
+                      dict1[thesi] = ([itemlistOnomataArxeion[i], itemlistOnomataArxeion[j]])
+                      thesi += 1
+                  else:
+                      Y[thesi] = 0
+                      dict1[thesi] = ([itemlistOnomataArxeion[i], itemlistOnomataArxeion[j]])
+                      thesi += 1
+      return X_Pinakas, Y
+
+
+  def constructArrays():
+      X_Pinakas, Y = XYarrays()
+      Y_pinakas = Y.flatten()
+      Y_Array_Flatten = np.reshape(Y_pinakas, (Y_pinakas.shape[0], 1))
+
+      X_Pinakas = preprocessing.scale(X_Pinakas)
+
+      clf = LogisticRegression()
+      clf.fit(X_Pinakas, Y_Array_Flatten.ravel())
+      y_pred = clf.predict_proba(X_Pinakas)
+
+      ListaProba = np.zeros(X_Pinakas.shape[0])
+
+      for n in range(len(y_pred)):
+          ListaProba[n] = np.around(y_pred[n, 1], decimals=3)
+
+      result = nlargest(6 * 453, enumerate(ListaProba), itemgetter(1))
+
+      return result
+
+
+  def nodepair():
+      result = constructArrays()
+      apotelesmata = open("/home/renos/Desktop/predicted_edges.txt", 'w', encoding='utf-8')
+      eggrafes = 453
+      while eggrafes != 0:
+          for pivot in range(len(result)):
+              for key, value in dict1.items():
+                  if result[pivot][0] == key:
+                      if dict1[key] not in dictEdgelist.values():
+                          if eggrafes != 0:
+                              apotelesmata.write(value[0] + "\t" + value[1] + "\n")
+                              print(value[0], "\t", value[1])
+                              eggrafes -= 1
+                          else:
+                              return
+
+
+  if __name__ == '__main__':
+      nodepair()
+
+```
+
+

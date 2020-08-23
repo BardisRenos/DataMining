@@ -104,11 +104,19 @@ Same text files:1798
 * Subtraction of numbers & symbols
 * Remove punctuation
 
-<p style="text-align: center;">
-->From the texts we create the table of **tf-idf** with the texts that have been edited and entered into a large list which contains lists of texts, in which each list is a text, ie each node is converted to large text (the which contains all text files if there is more than one).
-Then we create the cosine similarity table from the tf-idf table which we have converted to a sparce matrix and store it in a numpy array so that we have it available when we do tests for the prediction model that we will apply later. At the same time we save a file in pickle format with the names of the nodes because there is no pickle file in the form of pickle with the names of the nodes because there is no tangible utility.</p>
+<p align="justify">
+From the texts we create the table of <b>tf-idf</b> with the texts that have been edited and entered into a large list which contains lists of texts, in Which each list is a text, ie each node is converted to large text (which contains all text files if there is more than one).
+
+Then we create the <b>osine similarity</b> table from the <b>tf-idf</b> table which we have converted to a sparce matrix and store it in a numpy array so that we have it available when we do tests for the prediction model that we will apply later. At the same time we save a file in <b>pickle</b> format with the names of the nodes because we also use it below in our final model.
+</p>
 
 <p align="justify">
-The size of the table should be 2041 lines on (the only words in the text) but the lines in our case, tf-idf has 2036 because 5 nodes the length of the text was too small or texts that contained words that did not had semantic value. Because lists of texts that are empty are excluded.
+The size of the array should be 2041 rows by <b>the only words in the text</b> but the rows in our case, the tf-idf array has 2036 because 5 nodes the length of the text was too small or texts that contained words that did not had semantic value. Because lists of texts that are empty are excluded.
 </p>
+
+
+
+
+
+
 

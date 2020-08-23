@@ -374,7 +374,22 @@ To apply these algorithms I mentioned above we had to use the directional and no
 
   if __name__ == '__main__':
       nodepair()
-
 ```
+
+### Feautres that helped and other that do not
+
+Features that did not help to improve the prediction percentage:. 
+
+* Using features like <b>Shortest Path</b> did not help increase the percentage
+* The <b>Centrality</b> feature did not help increase the percentage
+* Another feature is the <b>Common Neighbors</b>, which also did not help
+* The <b>Preferential_attachment</b> feature did not improve the accuracy rate
+* The <b>Resource_allocation_index</b> as a feature did not optimize the percentage
+* The <b>Jaccard Coefficient</b> did not change the percentage to any extent (neither increased nor decreased it)
+* The <b>Katz_Centrality</b> showed no improvement
+* The <b>hits</b> also did not show any improvement
+
+### Conversion of the value scale of array X
+
 
 

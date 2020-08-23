@@ -105,9 +105,7 @@ Same text files:1798
 * Remove punctuation
 
 <p align="justify">
-From the texts we create the table of <b>tf-idf</b> with the texts that have been edited and entered into a large list which contains lists of texts, in Which each list is a text, ie each node is converted to large text (which contains all text files if there is more than one).
-
-Then we create the <b>osine similarity</b> table from the <b>tf-idf</b> table which we have converted to a sparce matrix and store it in a numpy array so that we have it available when we do tests for the prediction model that we will apply later. At the same time we save a file in <b>pickle</b> format with the names of the nodes because we also use it below in our final model.
+From the texts we create the table of <b>tf-idf</b> with the texts that have been edited and entered into a large list which contains lists of texts, in Which each list is a text, ie each node is converted to large text (which contains all text files if there is more than one). Then we create the <b>osine similarity</b> table from the <b>tf-idf</b> table which we have converted to a sparce matrix and store it in a numpy array so that we have it available when we do tests for the prediction model that we will apply later. At the same time we save a file in <b>pickle</b> format with the names of the nodes because we also use it below in our final model.
 </p>
 
 <p align="justify">
@@ -115,7 +113,89 @@ The size of the array should be 2041 rows by <b>the only words in the text</b> b
 </p>
 
 
+```python
+  import string
+  from collections import defaultdict
+  from sklearn.feature_extraction.text import TfidfVectorizer
+  import numpy as np
+  from scipy import sparse
+  from sklearn.metrics.pairwise import cosine_similarity
+  import pickle
 
+
+  path = "/home/renos/Desktop/hosts"
+  listacleanwords = []
+
+  listofwords = []
+  filestoping = open("/home/renos/Desktop/greekstopwordslower.txt", 'r')
+
+  for word in filestoping:
+      listofwords.append(word.strip("\n"))
+
+  global onomaarxeiou
+  d = defaultdict(list)
+  # y = []
+  X = []
+  olikilista = []
+  onomataArxeion = []
+  oloklirilista = []
+
+  count = 0
+  for root, directories, filenames in os.walk(path):
+      onomaarxeiou = os.path.basename(root)
+      for filename in filenames:
+          diadromi = os.path.join(root, filename)
+          file = open(diadromi, 'r')
+          for line in file:
+              for words in line.split():
+                  words = words.strip(string.punctuation)
+                  words = words.replace("ή", "η")
+                  words = words.replace("ύ", "υ")
+                  words = words.replace("ί", "ι")
+                  words = words.replace("ό", "ο")
+                  words = words.replace("ώ", "ω")
+                  words = words.replace("ά", "α")
+                  words = words.replace("έ", "ε")
+                  words = words.replace("ϊ", "ι")
+                  words = words.replace("ϋ", "υ")
+                  words = words.replace(">>", "")
+                  words = words.replace("»", "")
+                  words = words.replace("«", "")
+                  words = words.replace("<<", "")
+                  words = words.replace("#", "")
+                  words = words.replace("!", "")
+
+                  if words.isalpha() and words not in listofwords and len(words) > 4:
+                      listacleanwords.append(words)
+      if len(listacleanwords) != 0:
+          listacleanwords[:] = [' '.join(map(str, listacleanwords[:]))]
+          olikilista.append(listacleanwords)
+          onomataArxeion.append(onomaarxeiou)
+          listacleanwords = []
+
+  olikilista = [x for x in olikilista if x]
+
+  flatten = [val for i in olikilista for val in i]
+
+  with open("/home/renos/Desktop/CosineSimilarity/ArxeioKeimenon.txt", "w") as fp:
+      for i in flatten:
+          fp.write(i+"\n")
+
+
+  v = TfidfVectorizer(decode_error='ignore')
+  X = v.fit_transform(flatten)
+  print("The size of DF-Idf", X.shape)
+
+  X_sparce = sparse.csr_matrix(X)
+  similarities_sparse = cosine_similarity(X_sparce, dense_output=True)
+
+  pathfile = "/home/renos/Desktop/CosineSimilarity/ArxeioCosineSimilarity"
+  np.save(pathfile, similarities_sparse)
+
+  with open("/home/renos/Desktop/CosineSimilarity/ArxeioFileNames", "wb") as fp:
+      pickle.dump(onomataArxeion, fp)
+
+```
 
 
 

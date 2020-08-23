@@ -389,7 +389,34 @@ Features that did not help to improve the prediction percentage:.
 * The <b>Katz_Centrality</b> showed no improvement
 * The <b>hits</b> also did not show any improvement
 
-### Conversion of the value scale of array X
+Features that helped improve the rate:.
 
+* Cosine similarity
+* KCore
+* Indegree του κάθε κόμβου
+* Outdegree του κάθε κόμβου
+* PageRank
+* Adamic/Adar
+
+### Conversion of the value scale of the array X
+
+<p align="justify">
+To optimize the percentage I used from the library <b>sklearn</b> the <b>preprocessing.scale</b> for the X array which has the values of the attributes. This feature offers the normalization of values from 0 as the lowest value and the maximum 1, namely, it represents the values of the table regardless of their size in climates from zero to one. This helps us to represent the values into the desired scale. Since the results that the <b>predict_proba</b> function produce values in the same scale. This conversion helps to increase the percentage of prediction.
+</p>
+
+  
+![](https://latex.codecogs.com/gif.latex?z%20%3D%20%5Cfrac%7Bx-%5Cmu%20%7D%7B%5Csigma%20%7D)
+
+<p align="justify">
+Logistic Regresion completes the algorithm with the results in less than 10 minutes and gives <b>0.083885209713024</b> as a success rate. Logistic Regression which gave better results and better response time than the <b>Random Forest regression</b> algorithm which was slower with lower results.
+</p>
+
+### Bibliography
+For the selection of the algorithms edge predictions I took into account some Paper
+
+* http://be.amazd.com/link-prediction/
+* The Link Prediction Problem for Social Networks
+* Network Flows and the Link Prediction Problem
+* Graph-based Features for Supervised Link Prediction
 
 

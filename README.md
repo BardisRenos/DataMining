@@ -393,8 +393,8 @@ Features that helped improve the rate:.
 
 * Cosine similarity
 * KCore
-* Indegree του κάθε κόμβου
-* Outdegree του κάθε κόμβου
+* Indegree of each node
+* Outdegree of each node
 * PageRank
 * Adamic/Adar
 
